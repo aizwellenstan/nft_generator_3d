@@ -1,3 +1,5 @@
+# NftGenerator Using NFTPort
+use ipfs, MetaMask, OpenSea to view
 
 1. Create Contract
 https://docs.nftport.xyz/docs/nftport/b3A6MjE0MDYzNzU-deploy-an-nft-contract
