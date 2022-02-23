@@ -5,10 +5,15 @@ const fs = require("fs");
 
 require('dotenv').config();
 const AUTH = process.env.NFTPORT_API_KEY;
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const MINT_TO_ADDRESS = process.env.WALLET_ADDRESS;
-// const CHAIN = 'rinkeby';
-const CHAIN = 'polygon';
+const ISTESTING = process.env.TEST;
+if (ISTESTING) {
+  const CHAIN = 'rinkeby';
+  const CONTRACT_ADDRESS_RINKEBY = process.env.CONTRACT_ADDRESS;
+} else {
+  const CHAIN = 'polygon';
+  const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
+}
 const TIMEOUT = 1000; // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
 
 if (!fs.existsSync(path.join(`${basePath}/build`, "/minted"))) {
