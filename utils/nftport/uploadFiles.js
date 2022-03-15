@@ -11,7 +11,7 @@ const TIMEOUT = 1000; // Milliseconds. Extend this if needed to wait for each up
 const allMetadata = [];
 
 async function main() {
-  const files = fs.readdirSync(`${basePath}/build/images`);
+  const files = fs.readdirSync(`${basePath}/build/glbs`);
   files.sort(function(a, b){
     return a.split(".")[0] - b.split(".")[0];
   });
@@ -21,7 +21,9 @@ async function main() {
     let metaData = JSON.parse(jsonFile);
     if(!metaData.file_url.includes('https://')) {
       const response = await fetchWithRetry(file);
-      metaData.file_url = response.ipfs_url;
+      var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
+      metaData.file_url = resUrl;
+      metaData.animation_url = resUrl;
   
       fs.writeFileSync(
         `${basePath}/build/json/${fileName}.json`,

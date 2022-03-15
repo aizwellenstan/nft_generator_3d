@@ -13,7 +13,6 @@ https://docs.nftport.xyz/docs/nftport/b3A6MjE2NjM4OTk-retrieve-a-deployed-contra
 4. copy contract address to .env
 
 ```
-npm run generate
 node utils/nftport/uploadFiles.js
 node utils/nftport/genericMetas.js
 node utils/nftport/uploadMetas.js
