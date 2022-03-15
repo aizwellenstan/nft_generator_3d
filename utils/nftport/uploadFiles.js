@@ -24,6 +24,7 @@ async function main() {
       var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
       metaData.file_url = resUrl;
       metaData.animation_url = resUrl;
+      metaData.custom_fields.edition = Math.floor(Date.now() / 1000);
   
       fs.writeFileSync(
         `${basePath}/build/json/${fileName}.json`,
@@ -53,9 +54,8 @@ async function fetchWithRetry(file)  {
   return new Promise((resolve, reject) => {
     const fetch_retry = (_file) => {
       const formData = new FormData();
-      const fileStream = fs.createReadStream(`${basePath}/build/images/${_file}`);
+      const fileStream = fs.createReadStream(`${basePath}/build/glbs/${_file}`);
       formData.append("file", fileStream);
-
       let url = "https://api.nftport.xyz/v0/files";
       let options = {
         method: "POST",
