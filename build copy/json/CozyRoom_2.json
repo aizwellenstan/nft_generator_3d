@@ -1,6 +1,6 @@
 {
  "name": "CozyRoom_2",
- "description": " CozyRoom",
+ "description": "CozyRoom",
  "image": "",
  "attributes": [
   {
@@ -9,19 +9,19 @@
   },
   {
    "trait_type": "Door Handle",
-   "value": "Gold Door Handle"
+   "value": "Bronze Door Handle"
   },
   {
    "trait_type": "PC Cases",
-   "value": "Red PC Case"
+   "value": "Pink PC Case"
   },
   {
    "trait_type": "Tables",
-   "value": "Pink Table"
+   "value": "Blue Table"
   },
   {
    "trait_type": "Walls",
-   "value": "Green Wall"
+   "value": "Pink Wall"
   }
  ]
 }

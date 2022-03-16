@@ -1,11 +1,11 @@
 {
  "name": "CozyRoom_5",
- "description": " CozyRoom",
+ "description": "CozyRoom",
  "image": "",
  "attributes": [
   {
    "trait_type": "Cozy Covers",
-   "value": "Red Cozy Covers"
+   "value": "Blue Cozy Covers"
   },
   {
    "trait_type": "Door Handle",
@@ -17,11 +17,11 @@
   },
   {
    "trait_type": "Tables",
-   "value": "Silver Table"
+   "value": "Gold Table"
   },
   {
    "trait_type": "Walls",
-   "value": "Red Wall"
+   "value": "Green Wall"
   }
  ]
 }

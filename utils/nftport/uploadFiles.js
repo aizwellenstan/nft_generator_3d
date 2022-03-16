@@ -19,36 +19,31 @@ async function main() {
     const fileName = path.parse(file).name;
     let jsonFile = fs.readFileSync(`${basePath}/build/json/${fileName}.json`);
     let metaData = JSON.parse(jsonFile);
+    let uploadFile = false;
     if (!metaData.hasOwnProperty('file_url')) {
-      var response = await fetchWithRetry(file);
-      var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
-      metaData.file_url = response.ipfs_url;
+      uploadFile = true;
+    } else {
+      if(!metaData.file_url.includes('https://')) {
+        uploadFile = true;
+      } else {
+        console.log(`${fileName} already uploaded.`);
+      }
+    }
+
+    if (uploadFile) {
+      let response = await fetchWithRetry(file);
+      let resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
       metaData.animation_url = resUrl;
       metaData.custom_fields = {};
       metaData.custom_fields.edition = Date.now();
+      let imageresponse = await fetchWithRetryImages(`${fileName}.png`);
+      metaData.file_url = imageresponse.ipfs_url;
   
       fs.writeFileSync(
         `${basePath}/build/json/${fileName}.json`,
         JSON.stringify(metaData, null, 2)
       );
       console.log(`${response.file_name} uploaded & ${fileName}.json updated!`);
-    } else {
-      if(!metaData.file_url.includes('https://')) {
-        var response = await fetchWithRetry(file);
-        var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
-        metaData.file_url = response.ipfs_url;
-        metaData.animation_url = resUrl;
-        metaData.custom_fields = {};
-        metaData.custom_fields.edition = metaData.name.split('_').pop();
-    
-        fs.writeFileSync(
-          `${basePath}/build/json/${fileName}.json`,
-          JSON.stringify(metaData, null, 2)
-        );
-        console.log(`${response.file_name} uploaded & ${fileName}.json updated!`);
-      } else {
-        console.log(`${fileName} already uploaded.`);
-      }
     }
 
     allMetadata.push(metaData);
@@ -71,6 +66,57 @@ async function fetchWithRetry(file)  {
     const fetch_retry = (_file) => {
       const formData = new FormData();
       const fileStream = fs.createReadStream(`${basePath}/build/glbs/${_file}`);
+      formData.append("file", fileStream);
+      let url = "https://api.nftport.xyz/v0/files";
+      let options = {
+        method: "POST",
+        headers: {
+          Authorization: AUTH,
+        },
+        body: formData,
+      };
+
+      return fetch(url, options).then(async (res) => {
+          const status = res.status;
+
+          if(status === 200) {
+            return res.json();
+          }            
+          else {
+            console.error(`ERROR STATUS: ${status}`)
+            console.log('Retrying')
+            await timer(TIMEOUT)
+            fetch_retry(_file)
+          }            
+      })
+      .then(async (json) => {
+        if(json.response === "OK"){
+          return resolve(json);
+        } else {
+          console.error(`NOK: ${json.error}`)
+          console.log('Retrying')
+          await timer(TIMEOUT)
+          fetch_retry(_file)
+        }
+      })
+      .catch(async (error) => {  
+        console.error(`CATCH ERROR: ${error}`)  
+        console.log('Retrying')    
+        await timer(TIMEOUT)    
+        fetch_retry(_file)
+      });
+    }        
+    return fetch_retry(file);
+  });
+}
+
+async function fetchWithRetryImages(file)  {
+  await timer(TIMEOUT)
+  return new Promise((resolve, reject) => {
+    const fetch_retry = (_file) => {
+      const formData = new FormData();
+      console.log(`${basePath}/build/Images/${_file}`)
+      const fileStream = fs.createReadStream(`${basePath}/build/Images/${_file}`);
       formData.append("file", fileStream);
       let url = "https://api.nftport.xyz/v0/files";
       let options = {

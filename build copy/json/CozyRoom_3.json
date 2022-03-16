@@ -1,11 +1,11 @@
 {
  "name": "CozyRoom_3",
- "description": " CozyRoom",
+ "description": "CozyRoom",
  "image": "",
  "attributes": [
   {
    "trait_type": "Cozy Covers",
-   "value": "Green Cozy Covers"
+   "value": "Pink Cozy Covers"
   },
   {
    "trait_type": "Door Handle",
@@ -13,7 +13,7 @@
   },
   {
    "trait_type": "PC Cases",
-   "value": "Green PC Case"
+   "value": "Yellow PC Case"
   },
   {
    "trait_type": "Tables",
@@ -21,7 +21,7 @@
   },
   {
    "trait_type": "Walls",
-   "value": "Red Wall"
+   "value": "Green Wall"
   }
  ]
 }
