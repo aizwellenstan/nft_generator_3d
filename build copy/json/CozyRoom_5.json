@@ -1,0 +1,27 @@
+{
+ "name": "CozyRoom_5",
+ "description": "",
+ "image": "",
+ "attributes": [
+  {
+   "trait_type": "Cozy Covers",
+   "value": "Red Cozy Covers"
+  },
+  {
+   "trait_type": "Door Handle",
+   "value": "Gold Door Handle"
+  },
+  {
+   "trait_type": "PC Cases",
+   "value": "Yellow PC Case"
+  },
+  {
+   "trait_type": "Tables",
+   "value": "Silver Table"
+  },
+  {
+   "trait_type": "Walls",
+   "value": "Red Wall"
+  }
+ ]
+}

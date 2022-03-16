@@ -15,13 +15,13 @@ fs.readdirSync(`${buildDir}/json`).forEach((file) => {
 
   const jsonFile = JSON.parse(fs.readFileSync(`${buildDir}/json/${file}`));
 
-  jsonFile.name = `${GENERIC_TITLE} #${jsonFile.custom_fields.edition}`;
   jsonFile.description = GENERIC_DESCRIPTION;
   jsonFile.file_url =
     "https://ipfs.io/ipfs/bafkreibos2qb6sgc4smzggchpnwv7fpuu256qbbbzaqvj4wdkjtf65qf24";
     // This is an example url, replace with yours.
+  jsonFile.custom_fields = {};
+  jsonFile.custom_fields.edition = parseInt(jsonFile.name.split('_').pop());
   delete jsonFile.attributes;
-  delete jsonFile.custom_fields.dna;
 
   fs.writeFileSync(
     `${buildDir}/genericJson/${file}`,

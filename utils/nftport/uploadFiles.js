@@ -19,12 +19,13 @@ async function main() {
     const fileName = path.parse(file).name;
     let jsonFile = fs.readFileSync(`${basePath}/build/json/${fileName}.json`);
     let metaData = JSON.parse(jsonFile);
-    if(!metaData.file_url.includes('https://')) {
-      const response = await fetchWithRetry(file);
+    if (!metaData.hasOwnProperty('file_url')) {
+      var response = await fetchWithRetry(file);
       var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
       metaData.file_url = resUrl;
       metaData.animation_url = resUrl;
-      metaData.custom_fields.edition = Math.floor(Date.now() / 1000);
+      metaData.custom_fields = {};
+      metaData.custom_fields.edition = metaData.name.split('_').pop();
   
       fs.writeFileSync(
         `${basePath}/build/json/${fileName}.json`,
@@ -32,7 +33,22 @@ async function main() {
       );
       console.log(`${response.file_name} uploaded & ${fileName}.json updated!`);
     } else {
-      console.log(`${fileName} already uploaded.`);
+      if(!metaData.file_url.includes('https://')) {
+        var response = await fetchWithRetry(file);
+        var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
+        metaData.file_url = resUrl;
+        metaData.animation_url = resUrl;
+        metaData.custom_fields = {};
+        metaData.custom_fields.edition = metaData.name.split('_').pop();
+    
+        fs.writeFileSync(
+          `${basePath}/build/json/${fileName}.json`,
+          JSON.stringify(metaData, null, 2)
+        );
+        console.log(`${response.file_name} uploaded & ${fileName}.json updated!`);
+      } else {
+        console.log(`${fileName} already uploaded.`);
+      }
     }
 
     allMetadata.push(metaData);
