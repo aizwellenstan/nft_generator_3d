@@ -22,10 +22,10 @@ async function main() {
     if (!metaData.hasOwnProperty('file_url')) {
       var response = await fetchWithRetry(file);
       var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
-      metaData.file_url = resUrl;
+      metaData.file_url = response.ipfs_url;
       metaData.animation_url = resUrl;
       metaData.custom_fields = {};
-      metaData.custom_fields.edition = metaData.name.split('_').pop();
+      metaData.custom_fields.edition = Date.now();
   
       fs.writeFileSync(
         `${basePath}/build/json/${fileName}.json`,
@@ -36,7 +36,7 @@ async function main() {
       if(!metaData.file_url.includes('https://')) {
         var response = await fetchWithRetry(file);
         var resUrl = response.ipfs_url+`?fileName=${fileName}.glb`;
-        metaData.file_url = resUrl;
+        metaData.file_url = response.ipfs_url;
         metaData.animation_url = resUrl;
         metaData.custom_fields = {};
         metaData.custom_fields.edition = metaData.name.split('_').pop();
